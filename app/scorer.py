@@ -1,9 +1,9 @@
 """
-Pronunciation Scorer using Levenshtein Distance
+Pronunciation Scorer using RapidFuzz
 Compares expected text vs recognized text and generates feedback
 """
 
-import Levenshtein
+from rapidfuzz import fuzz
 
 
 def compute_score(expected_text: str, recognized_text: str) -> dict:
@@ -24,8 +24,8 @@ def compute_score(expected_text: str, recognized_text: str) -> dict:
             "improvement_tip": "Please provide both expected and recognized text"
         }
     
-    # Calculate similarity using Levenshtein distance
-    similarity_ratio = Levenshtein.ratio(expected_text.lower(), recognized_text.lower())
+    # Calculate similarity using rapidfuzz
+    similarity_ratio = fuzz.ratio(expected_text.lower(), recognized_text.lower()) / 100
     score = round(similarity_ratio * 100, 2)
     
     # Generate feedback based on score
